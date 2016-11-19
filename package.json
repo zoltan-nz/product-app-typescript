@@ -1,0 +1,19 @@
+{
+  "name": "streamer-node-app",
+  "version": "0.0.1",
+  "description": "Inspired by: https://www.new-bamboo.co.uk/blog/2009/12/08/real-time-online-activity-monitor-example-with-node-js-and-websocket/",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zoltan-nz/streamer-node-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zoltan-nz/streamer-node-app/issues"
+  },
+  "homepage": "https://github.com/zoltan-nz/streamer-node-app#readme"
+}

@@ -2,8 +2,11 @@ const childProcess = require('child_process');
 const util = require('util');
 
 const http = require('http');
+const https = require('https');
 const net = require('net');
 const url = require('url');
+
+const fs = require('fs');
 
 // const filename = process.argv[2];
 //
@@ -19,43 +22,74 @@ const url = require('url');
 //   console.log(data);
 // });
 
+// FILE SERVER
+
+const indexHtml = fs.createReadStream('index.html');
+
 // LAUNCH SERVER
 
-const proxy = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('okay');
+function handleRequest(req, response) {
+  response.writeHead(200, { 'Content-Type': 'text/html' });
+
+  indexHtml.pipe(response);
+}
+
+const server = http.createServer(handleRequest);
+
+server.listen(8000, 'localhost', () => {
+  console.log('opened server on', server.address());
 });
 
-proxy.listen(8000, 'localhost', () => {
-  console.log('opened server on', proxy.address());
+server.on('connect', (request, socket, head) => {
+  console.log('CONNECT');
+  // console.log('request:', request);
+  // console.log('socket:', socket);
+  // console.log('head:', head);
 });
 
-proxy.on('connect', (req, cltSocket, head) => {
-  const srvUrl = url.parse(`http://${req.url}`);
-  const srvSocket = net.connect(srvUrl.port, srvUrl.hostname, () => {
-    cltSocket.write('HTTP/1.1 200 Connection Established\r\n' + 'Proxy-agent: Node.js-Proxy\r\n' + '\r\n');
-    srvSocket.write(head);
-    srvSocket.pipe(cltSocket);
-    cltSocket.pipe(srvSocket);
-  })
+server.on('connection', (socket) => {
+  console.log('CONNECTION');
+  // console.log('socket:', socket);
 });
 
-const client = net.createConnection({ port: 8000 }, () => {
-  console.log('connected to server!');
-  client.write('world!\r\n');
+server.on('request', (request, response) => {
+  console.log('REQUEST');
+  // console.log('request:', request);
+  // console.log('response:', response);
 });
 
-client.on('data', (data) => {
-  console.log(data.toString());
-  client.end();
+server.on('upgrade', (request) => {
+  console.log('UPGRADE');
+  // console.log('request:', request);
 });
 
-client.on('end', () => {
-  console.log('disconnected from server');
-});
+
+// server.on('connect', (req, cltSocket, head) => {
+//   const srvUrl = url.parse(`http://${req.url}`);
+//   const srvSocket = net.connect(srvUrl.port, srvUrl.hostname, () => {
+//     cltSocket.write('HTTP/1.1 200 Connection Established\r\n' + 'Proxy-agent: Node.js-Proxy\r\n' + '\r\n');
+//     srvSocket.write(head);
+//     srvSocket.pipe(cltSocket);
+//     cltSocket.pipe(srvSocket);
+//   })
+// });
+//
+// const client = net.createConnection({ port: 8000 }, () => {
+//   console.log('connected to server!');
+//   client.write('world!\r\n');
+// });
+//
+// client.on('data', (data) => {
+//   console.log(data.toString());
+//   client.end();
+// });
+//
+// client.on('end', () => {
+//   console.log('disconnected from server');
+// });
 
 //
-// proxy.listen(1337, 'localhost', () => {
+// server.listen(1337, 'localhost', () => {
 //   const options = {
 //     port: 1337,
 //     hostname: 'localhost',
@@ -74,7 +108,7 @@ client.on('end', () => {
 //       console.log(chunk.toString());
 //     });
 //     socket.on('end', () => {
-//       proxy.close();
+//       server.close();
 //     })
 //   })
 //
