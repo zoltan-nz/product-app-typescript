@@ -1,7 +1,29 @@
 <!doctype html>
 <html>
-<head></head>
+<head>
+
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="http://localhost:8081/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io('http://localhost:8081');
+      socket.on('news', (data) => {
+        console.log(data);
+        socket.emit('my other event', { my: 'data' });
+      });
+
+      socket.on('tail', (data) => {
+        console.log(data);
+        $('#logfile').append(`<p>${data.line}</p>`);
+      })
+    </script>
+
+</head>
 <body>
 <h1>Hello World</h1>
+
+<div id="logfile"></div>
 </body>
 </html>

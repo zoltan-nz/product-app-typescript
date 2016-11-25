@@ -1,115 +1,50 @@
-const childProcess = require('child_process');
-const util = require('util');
-
-const http = require('http');
-const https = require('https');
-const net = require('net');
-const url = require('url');
-
+const watch = require('chokidar').watch;
 const fs = require('fs');
+const http = require('http');
+const childProcess = require('child_process');
 
-// const filename = process.argv[2];
-//
-// // READ FILE
-//
-// if (!filename)
-//   return console.log('Usage: node index.js filename');
-//
-// let tail = childProcess.execFile('tail', ['-f', filename]);
-// console.log('start tailing...');
-//
-// tail.stdout.on('data', (data) => {
-//   console.log(data);
-// });
+const FILE = './sample.txt';
+const INDEX_HTML = './index.html';
 
-// FILE SERVER
+// READ FILE
 
-const indexHtml = fs.createReadStream('index.html');
+let tail = childProcess.execFile('tail', ['-f', '-n20', FILE]);
+console.log('start tailing...');
 
-// LAUNCH SERVER
 
-function handleRequest(req, response) {
-  response.writeHead(200, { 'Content-Type': 'text/html' });
+// SERVE INDEX
 
-  indexHtml.pipe(response);
+function serveContent(req, res) {
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  fs.createReadStream(INDEX_HTML).pipe(res);
 }
 
-const server = http.createServer(handleRequest);
+const server = http.createServer(serveContent);
 
-server.listen(8000, 'localhost', () => {
-  console.log('opened server on', server.address());
-});
-
-server.on('connect', (request, socket, head) => {
-  console.log('CONNECT');
-  // console.log('request:', request);
-  // console.log('socket:', socket);
-  // console.log('head:', head);
-});
-
-server.on('connection', (socket) => {
-  console.log('CONNECTION');
-  // console.log('socket:', socket);
-});
-
-server.on('request', (request, response) => {
+server.on('request', (socket) => {
   console.log('REQUEST');
-  // console.log('request:', request);
-  // console.log('response:', response);
+  // console.log('socket:', socket);
 });
 
-server.on('upgrade', (request) => {
-  console.log('UPGRADE');
-  // console.log('request:', request);
+server.listen(8080);
+console.log('server listening 8080');
+
+// SERVE socket.io file
+
+const SocketIO = require('socket.io');
+
+const io = new SocketIO(8081);
+
+io.on('connection', (socket) => {
+  console.log('socket connection');
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+
+  tail.stdout.on('data', (data) => {
+    console.log(data);
+    socket.emit('tail', { line: data });
+  });
+
 });
-
-
-// server.on('connect', (req, cltSocket, head) => {
-//   const srvUrl = url.parse(`http://${req.url}`);
-//   const srvSocket = net.connect(srvUrl.port, srvUrl.hostname, () => {
-//     cltSocket.write('HTTP/1.1 200 Connection Established\r\n' + 'Proxy-agent: Node.js-Proxy\r\n' + '\r\n');
-//     srvSocket.write(head);
-//     srvSocket.pipe(cltSocket);
-//     cltSocket.pipe(srvSocket);
-//   })
-// });
-//
-// const client = net.createConnection({ port: 8000 }, () => {
-//   console.log('connected to server!');
-//   client.write('world!\r\n');
-// });
-//
-// client.on('data', (data) => {
-//   console.log(data.toString());
-//   client.end();
-// });
-//
-// client.on('end', () => {
-//   console.log('disconnected from server');
-// });
-
-//
-// server.listen(1337, 'localhost', () => {
-//   const options = {
-//     port: 1337,
-//     hostname: 'localhost',
-//     method: 'CONNECT',
-//     path: 'www.google.com:80'
-//   };
-//
-//   const req = http.request(options);
-//   req.end();
-//
-//   req.on('connect', (res, socket, head) => {
-//     console.log('got connected!');
-//
-//     socket.write('GET / HTTP/1.1\r\n' + 'Host: www.google.com:80\r\n' + 'Connection: close\rn\n' + '\r\n');
-//     socket.on('data', (chunk) => {
-//       console.log(chunk.toString());
-//     });
-//     socket.on('end', () => {
-//       server.close();
-//     })
-//   })
-//
-// });
