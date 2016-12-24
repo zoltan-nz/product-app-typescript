@@ -1,23 +1,11 @@
 {
-  "name": "streamer-node-app",
+  "name": "product-app-typescript",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zoltan-nz/streamer-node-app.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/zoltan-nz/streamer-node-app/issues"
-  },
-  "homepage": "https://github.com/zoltan-nz/streamer-node-app#readme",
-  "dependencies": {
-    "chokidar": "^1.6.1",
-    "socket.io": "^1.7.1"
-  }
+  "author": "Zoltan Debre",
+  "license": "MIT"
 }
