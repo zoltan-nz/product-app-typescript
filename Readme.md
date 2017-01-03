@@ -1,1 +1,0 @@
-## Product App - Node.js - TypeScript
