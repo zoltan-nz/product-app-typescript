@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/zoltan-nz/product-app-typescript/issues"
   },
-  "homepage": "https://github.com/zoltan-nz/product-app-typescript#readme"
+  "homepage": "https://github.com/zoltan-nz/product-app-typescript#readme",
+  "devDependencies": {
+    "@types/node": "^7.0.1",
+    "ts-node": "^2.0.0",
+    "tslint": "^4.3.1",
+    "typescript": "^2.1.5"
+  }
 }
