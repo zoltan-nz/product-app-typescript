@@ -37,3 +37,22 @@ Side notes:
 ```shell
 * `npm i -D @types/node
 ```
+
+### Writing a basic class
+
+Compare simple ES6 with TypeScript.
+
+```shell
+$ mkdir src
+$ touch src/hello.ts
+$ touch src/hello.js
+```
+
+Run ts with `ts-node`.
+
+Notes:
+* VSCode, open shortcut helper and check `Trigger parameter hints`
+
+### Setup TSLint
+
+### Setup tsconfig.json
