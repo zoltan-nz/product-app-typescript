@@ -50,6 +50,10 @@ $ touch src/hello.js
 
 Run ts with `ts-node`.
 
+* Simple types
+* Simple class
+* Simple interface
+
 Notes:
 * VSCode, open shortcut helper and check `Trigger parameter hints`
 

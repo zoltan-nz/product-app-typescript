@@ -1,12 +1,17 @@
+interface HelloParams {
+    name: string;
+    repeate?: number;
+}
+
 class Hello {
-    constructor(private message:string) {}
+    constructor(params: HelloParams) {}
 
     say() {
         console.log(this.message)
     }
 }
 
-const h = new Hello('5');
+const h = new Hello({name: 'Joe'});
 
 h.say();
 // console.log(h.message);
