@@ -35,7 +35,7 @@ Side notes:
 **Type packages**
 
 ```shell
-* `npm i -D @types/node
+$ npm i -D @types/node
 ```
 
 ### Writing a basic class
@@ -45,14 +45,16 @@ Compare simple ES6 with TypeScript.
 ```shell
 $ mkdir src
 $ touch src/hello.ts
-$ touch src/hello.js
+$ touch src/old-hello.js
 ```
 
 Run ts with `ts-node`.
 
 * Simple types
-* Simple class
-* Simple interface
+* [Simple class](https://github.com/zoltan-nz/product-app-typescript/commit/55db1a6fae83b309e09ddbb33f11ee25a34c802e
+)
+* [Simple interface](https://github.com/zoltan-nz/product-app-typescript/commit/68fac1658faa9baf23d1bcd68f4375e5fabed819)
+
 
 Notes:
 * VSCode, open shortcut helper and check `Trigger parameter hints`
@@ -71,7 +73,7 @@ Side notes:
 * Remove `hello` files
 
 ```
-$ rm src/hello.*
+$ rm src/*hello*
 ```
 
 * Creating `app.ts` in our `src` folder
@@ -83,7 +85,7 @@ http://expressjs.com/en/starter/hello-world.html
 
 * Run `ts-node src/app.ts`
 
-Rewrite in ES6 like TypeScript style:
+Rewriting in ES6 style:
 
 ```js
 import * as express from 'express';
@@ -95,13 +97,63 @@ app.get('/', (req, res) => {
 });
 
 app.listen(3000, () => {
+    console.log('App listening on 3000!');
+});
+```
+
+Time to add some TypeScript syntax.
+
+* Import Application and add as a type.
+
+```typescript
+
+import * as express from 'express';
+import { Application } from 'express';
+
+const app:Application = express();
+
+app.get('/', (request, response) => {
+    response.send('Hello World');
+});
+
+app.listen(3000, () => {
     console.log('App listening on 3000!')
 });
 ```
 
-* Import Application and add as a type.
-* Works, but we cannot really unit test, only integration test.
-
 ### Setup TSLint
 
+Manually
+
+```
+$ tslint src/app.ts
+```
+
+```
+$ tslint src/app.ts --fix
+```
+
+Add config file
+
+```
+$ touch tslint.json
+```
+
+```
+{
+  "extends": "tslint:latest",
+  "rules": {
+    "quotemark": [true, "single", "avoid-escape"]
+  }
+}
+```
+
+https://palantir.github.io/tslint/rules/
+
 ### Setup tsconfig.json
+
+### Useful links
+
+
+* https://github.com/Microsoft/vscode-samples/tree/master/node-express-typescript
+* https://expressjs.com/en/starter/generator.html
