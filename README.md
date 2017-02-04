@@ -1,5 +1,10 @@
 ## Product App - Node.js - TypeScript
 
+### Prerequisites
+
+* Node.js v6 or higher.
+* Yarn v0.20 or newer.
+
 ### Basic folder configuration
 
 ```shell
@@ -15,145 +20,104 @@ $ npm init
 
 **Global packages**
 
-```shell
-$ npm i -g tslint typescript ts-node
-```
-
-* Playing with `ts-node` in console. (simple types, creating object, simple interface)
-
-**Developer packages**
+Install useful tools in global namespace.
 
 ```shell
-$ npm i -D tslint typescript ts-node
+$ yarn global add tslint typescript ts-node nodemon concurrently mocha
 ```
 
-Side notes:
-* `npm i -D` short version of `npm install --save-dev`
-* `npm -l` shows detailed options
-* `npm outdated`, upgrade a package: `npm i -D ts-node@latest`
-
-**Type packages**
+**Developer and type packages**
 
 ```shell
-$ npm i -D @types/node
+$ yarn add tslint typescript ts-node @types/node mocha @types/mocha nodemon nyc rimraf coveralls concurrently -D
 ```
 
-### Writing a basic class
+**Configuration files: `tsconfig.json`, `tslint.json`**
 
-Compare simple ES6 with TypeScript.
+# Run
 
-```shell
-$ mkdir src
-$ touch src/hello.ts
-$ touch src/old-hello.js
+### Prerequesits
+
+* Install Node.js v6 or newer.
+* Install `npm` v4 or newer. (optional)
+* Install `yarn` v0.19 or newer.
+
+**Install global packages with `yarn`**
+```
+$ yarn global add mocha typescript ts-node tslint nodemon
 ```
 
-Run ts with `ts-node`.
-
-* Simple types
-* [Simple class](https://github.com/zoltan-nz/product-app-typescript/commit/55db1a6fae83b309e09ddbb33f11ee25a34c802e
-)
-* [Simple interface](https://github.com/zoltan-nz/product-app-typescript/commit/68fac1658faa9baf23d1bcd68f4375e5fabed819)
-
-
-Notes:
-* VSCode, open shortcut helper and check `Trigger parameter hints`
-
-### Add express to the project
-
-```shell
-$ npm i -S express
-$ npm i -D @types/express
+**Install local packages with `yarn`**
+```
+$ yarn
 ```
 
-Side notes:
-* `npm -i -S` is the shorthand of `npm install --save`, so the package will be added to the `package.json` `dependencies` section.
-* Express app generator: `$ npm i -g express-generator`
-
-* Remove `hello` files
+**Build and launch**
 
 ```
-$ rm src/*hello*
+$ PORT=4000 NODE_ENV='production' yarn start
 ```
 
-* Creating `app.ts` in our `src` folder
+Use `Postman` or `Insomnia` or your favourite `curl` command to request the server.
 
-`Hello World` with express and TypeScript.
+### Development
 
-First, just copy-paste the "old" Node.js code from here:
-http://expressjs.com/en/starter/hello-world.html
-
-* Run `ts-node src/app.ts`
-
-Rewriting in ES6 style:
-
-```js
-import * as express from 'express';
-
-const app = express();
-
-app.get('/', (req, res) => {
-    res.send('Hello World');
-});
-
-app.listen(3000, () => {
-    console.log('App listening on 3000!');
-});
-```
-
-Time to add some TypeScript syntax.
-
-* Import Application and add as a type.
-
-```typescript
-
-import * as express from 'express';
-import { Application } from 'express';
-
-const app:Application = express();
-
-app.get('/', (request, response) => {
-    response.send('Hello World');
-});
-
-app.listen(3000, () => {
-    console.log('App listening on 3000!')
-});
-```
-
-### Setup TSLint
-
-Manually
+Launch the following three commands in separate terminal:
 
 ```
-$ tslint src/app.ts
+$ yarn watch:build
+$ yarn watch:server
+$ yarn watch:test
 ```
-
-```
-$ tslint src/app.ts --fix
-```
-
-Add config file
+or run all together parallel with `concurrently`:
 
 ```
-$ touch tslint.json
+$ yarn dev
 ```
 
+Linter (autofix on!):
+
 ```
-{
-  "extends": "tslint:latest",
-  "rules": {
-    "quotemark": [true, "single", "avoid-escape"]
-  }
-}
+$ yarn lint
 ```
 
-https://palantir.github.io/tslint/rules/
+Build:
 
-### Setup tsconfig.json
+```
+$ yarn build
+```
 
-### Useful links
+Build and test:
 
+```
+$ yarn test
+```
 
-* https://github.com/Microsoft/vscode-samples/tree/master/node-express-typescript
-* https://expressjs.com/en/starter/generator.html
+Build and launch:
+
+```
+$ yarn start
+```
+
+or
+
+```
+$ DEBUG='product-app' yarn start
+```
+
+Coverage report:
+
+```
+$ yarn test:coverage
+```
+
+Install terminal command:
+
+```
+$ yarn deploy
+$ product-app-server
+```
+
+# API
+
+Future api comes here...

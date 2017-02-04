@@ -1,6 +1,10 @@
 {
   "extends": "tslint:latest",
   "rules": {
-    "quotemark": [true, "single", "avoid-escape"]
+    "curly": false,
+    "quotemark": [true, "single", "avoid-escape"],
+    "trailing-comma": false,
+    "arrow-parens": [true, "ban-single-arg-parens"],
+    "interface-name": false
   }
 }
