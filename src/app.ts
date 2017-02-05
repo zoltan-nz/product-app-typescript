@@ -1,13 +1,20 @@
+import { json, urlencoded } from 'body-parser';
 import * as express from 'express';
-import { Application } from 'express';
-import * as process from 'process';
+import morgan = require('morgan');
 
-const app: Application = express();
+/**
+ * Provide an express application with the given environment settings. Default environment is 'development'.
+ *
+ * @param env
+ * @returns {express.Application}
+ */
+export default function(env: string = 'development'): express.Application {
 
-app.get('/', (request, response) => {
-    response.send('Hello World');
-});
+  const app: express.Application = express();
 
-app.listen(3000, () => {
-    process.stdout.write('App listening on 3000!');
-});
+  if (env !== 'test') app.use(morgan('dev'));
+  app.use(json());
+  app.use(urlencoded({ extended: false }));
+
+  return app;
+};

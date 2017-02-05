@@ -1,0 +1,9 @@
+--reporter=spec
+--growl
+--ui bdd
+--compilers ts:ts-node/register
+--recursive
+--check-leaks
+--colors
+--bail
+./**/*-test.ts
