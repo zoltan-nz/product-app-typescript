@@ -13,7 +13,7 @@ import App from '../app';
 import router from '../app-router';
 import Server from '../app-server';
 
-stdout.write('Parse The Parcel. Start...\n');
+stdout.write('Product App Server. Start...\n');
 
 const { NODE_ENV, PORT } = env;
 
