@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 // import { UNPROCESSABLE_ENTITY } from 'http-status';
-import { Product, ProductsRequest, ProductsResponse } from '../controllers/products';
+// import { Product, ProductsRequest, ProductsResponse } from '../controllers/products';
 
 /**
  * The `/api/products` route.

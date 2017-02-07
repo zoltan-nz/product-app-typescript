@@ -47,7 +47,7 @@ function onListening(server: Server): void {
 
   // Example for debug
   // debug('product-app')(`Listening on ${addr.address}:${addr.port}`);
-  console.log(`Listening on ${addr.address}:${addr.port}`);
+  process.stdout.write(`Listening on ${addr.address}:${addr.port}`);
 }
 
 function elevatedPrivilegesRequired(port: number) {
